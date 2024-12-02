@@ -8,37 +8,51 @@ namespace AOC_2024
 	{
 		static void Main(string[] args)
 		{
+
+
 			string filePath = "..\\..\\..\\input.txt";
 			List<int> leftValue = new List<int>();
 			List<int> rightValue = new List<int>();
 			List<int> sumValue = new List<int>();
 			string[] allLines = File.ReadAllLines(filePath);
-            Console.WriteLine("Alllines count: " + allLines.Length);
-            foreach (string line in allLines)
+			int totalSum = 0;
+			Console.WriteLine("Alllines count: " + allLines.Length);
+			foreach (string line in allLines)
 			{
-                string [] splitLine = line.Split("   ");
+				string[] splitLine = line.Split("   ");
 				leftValue.Add(int.Parse(splitLine[0]));
 				rightValue.Add(int.Parse(splitLine[1]));
 			}
             Console.WriteLine("right count: " + rightValue.Count());
             leftValue.Sort();
 			rightValue.Sort();
-			int sum = 0;
+
 			for(int i = 0; i < leftValue.Count(); i++)
 			{
-				sum = leftValue[i] - rightValue[i];
+				int sum = leftValue[i] - rightValue[i];
 				if(sum < 0) sum = Math.Abs(sum);
 				sumValue.Add(sum);
 			}
-			int totalSum = 0;
 			foreach(int i in sumValue)
 			{
 				totalSum += i;
 			}
-			Console.WriteLine(totalSum);
+			int similaritySum = 0;
 
-        }
-
-
+			foreach(int i in leftValue)
+			{
+				int totalSimilarity = 0;
+				foreach (int j in rightValue)
+				{
+					if (i ==  j)
+					{
+						totalSimilarity++;
+					}
+				}
+				similaritySum += totalSimilarity * i;
+            }
+			Console.WriteLine("Part 1: " + totalSum);
+			Console.WriteLine("Part 2: " + similaritySum);
+		}
 	}
 }
